@@ -12,10 +12,17 @@ Steps:
 5. Click Login
 
 Expected Result:
-User is successfully logged in
+User is redirected to the accont homepage and successfully logged in
+
+Environment:
+Browser: Chrome
+OS: Windows 10
+
+
 
 ## Test Case 2
 Title: Login with wrong password
+Precondition: User has a registered Amazon account
 
 Steps:
 1. Open amazon.de
@@ -25,3 +32,7 @@ Steps:
 
 Expected Result:
 Error message is displayed
+
+Environment:
+Browser: Chrome
+OS: Windows 10
