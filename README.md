@@ -1,3 +1,7 @@
+# QA Learning Repository
+
+This repository documents my journey to become a QA Engineer.
+
 ## About me
 
 I am a Junior QA Engineer in training, building practical experience in software testing.
@@ -19,29 +23,46 @@ Current focus:
 Future goals:
 - Advanced automation testing
 - CI/CD basics
-- Real-world project testing 
+- Real-world project testing
+
+## Skills snapshot
+- Manual Testing (Test cases, Bug reports)
+- Test design techniques (EP, BVA - basic)
+- Selenium WebDriver (Python)
+- (Git & GitHub)
 
 
-# QA Learning Repository
+## How to run automation tests
+This section explains how to run the existing Selenium automation tests locally.
 
-This repository documents my journey to become a QA Engineer.
+### Requirements
+- Python 3.10 or newer
+- Google Chrome browser
+- ChromeDriver (mathing your Chrome version)
+
+### Setup
+1. Clone the repository
+2. Install dependencies:
+   pip install -r requirements.txt
+### Run test
+python automation/test_invalid_password_shows_error.py
 
 ## Structure
 
-- test-cases - Manualand automated test cases
+- test-cases - Manual and automated test cases
 - bug-reports - Bug reports with reproduction steps
 - automation - Automation scripts and experiments
 - notes - Learning notes and theory
-
 ## Goals
 
 - Improve QA skills
 - Practice real test documentation
 - Build a professional QA portfolio
 
- ## Tools
+## Tools
 
- - Manual Testing
- - Selenium / Python (future)
- - GitHub
+- Manual Testing
+- Selenium / Python 
+- GitHub
+
 
