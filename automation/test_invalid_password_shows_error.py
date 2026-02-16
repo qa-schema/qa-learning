@@ -1,3 +1,4 @@
+from automation.utils import save_screenshot
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
@@ -17,16 +18,15 @@ def test_invalid_password_shows_error():
 
         flash = driver.find_element(By.ID, "flash").text
 
-        assert "Your password is invalid!" in flash, (
-            f"Expected error message not found. Actual message: {flash}"
-        )
+        assert "Your password is invalid!" in flash
 
-        print("PASS: Error message is displayed for invalid password.")
+    except Exception:
+        save_screenshot(driver, "test_invalid_passwoord_shows_error")
+        raise
 
     finally:
         driver.quit()
 
 
-if __name__ == "__main__":
-    test_invalid_password_shows_error()
+
 

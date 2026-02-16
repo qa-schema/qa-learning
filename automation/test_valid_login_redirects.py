@@ -1,3 +1,4 @@
+from automation.utils import save_screenshot
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,20 +7,29 @@ from selenium.webdriver.support import expected_conditions as EC
 def test_valid_login_redirects_to_inventory():
 
     driver = webdriver.Chrome()
-    driver.get("https://www.saucedemo.com/")
+    driver.maximize_window()
 
-    username_input = driver.find_element(By.ID, "user-name")
-    username_input.send_keys("standard_user")
+    try:
 
-    password_input = driver.find_element(By.ID, "password")
-    password_input.send_keys("secret_sauce")
+        driver.get("https://www.saucedemo.com/")
 
-    login_button = driver.find_element(By.ID, "login-button")
-    login_button.click()
+        username_input = driver.find_element(By.ID, "user-name")
+        username_input.send_keys("standard_user")
 
-    WebDriverWait(driver, 10) .until(
-        EC.url_contains("inventory")
-    )
-    assert "inventory" in driver.current_url
+        password_input = driver.find_element(By.ID, "password")
+        password_input.send_keys("secret_sauce")
 
-    driver.quit()
+        login_button = driver.find_element(By.ID, "login-button")
+        login_button.click()
+
+        WebDriverWait(driver, 10) .until(
+            EC.url_contains("inventory")
+        )
+        assert "inventory" in driver.current_url
+
+    except Exception:
+        save_screenshot(driver, "test_valid_login_redirects_to_inventory")
+        raise
+
+    finally:
+        driver.quit()
