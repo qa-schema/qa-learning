@@ -1,5 +1,4 @@
 import os
-import datetime
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -8,26 +7,17 @@ from selenium.webdriver.chrome.options import Options
 @pytest.fixture
 def driver():
     options = Options()
-    options.add_argument("--headless=new")
 
-    drv = webdriver.Chrome(options=options)
-    drv.maximize_window()
+    # Если переменная HEADLESS=1 (например в CI)
+    if os.getenv("HEADLESS") == "1":
+        options.add_argument("--headless=new")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
 
-    yield drv
-    drv.quit()
+    driver = webdriver.Chrome(options=options)
+    driver.maximize_window()
 
+    yield driver
 
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    rep = outcome.get_result()
-
-    if rep.when == "call" and rep.failed:
-        drv = item.funcargs.get("driver")
-        if drv:
-            os.makedirs("screenshots", exist_ok=True)
-            timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            filename = f"screenshots/{item.name}_{timestamp}.png"
-
-            drv.save_screenshot(filename)
+    driver.quit()
 
