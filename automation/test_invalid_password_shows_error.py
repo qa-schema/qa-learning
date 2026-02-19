@@ -1,31 +1,27 @@
 from automation.utils import save_screenshot
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-import time
 
-def test_invalid_password_shows_error():
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+def test_invalid_password_shows_error(driver):
+    wait = WebDriverWait(driver, 10)
 
     try:
         driver.get("https://the-internet.herokuapp.com/login")
 
-        driver.find_element(By.ID, "username").send_keys("tomsmith")
-        driver.find_element(By.ID, "password").send_keys("wrongpassword")
+        wait.until(EC.visibility_of_element_located((By.ID, "username"))).send_keys("tomsmith")
+        wait.until(EC.visibility_of_element_located((By.ID, "password"))).send_keys("wrongpassword")
 
-        driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
-        time.sleep(1)
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
 
-        flash = driver.find_element(By.ID, "flash").text
-
-        assert "Your password is invalid!" in flash
+        flash_text = wait.until(EC.visibility_of_element_located((By.ID, "flash"))).text
+        assert "Your password is invalid!" in flash_text
 
     except Exception:
-        save_screenshot(driver, "test_invalid_passwoord_shows_error")
+        save_screenshot(driver, "test_invalid_password_shows_error")
         raise
-
-    finally:
-        driver.quit()
 
 
 
