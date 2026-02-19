@@ -1,35 +1,18 @@
-from automation.utils import save_screenshot
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-def test_valid_login_redirects_to_inventory():
 
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+def test_valid_login_redirects_to_inventory(driver):
+    wait = WebDriverWait(driver, 10)
 
-    try:
+    driver.get("https://the-internet.herokuapp.com/login")
 
-        driver.get("https://www.saucedemo.com/")
+    wait.until(EC.visibility_of_element_located((By.ID, "username"))).send_keys("tomsmith")
+    wait.until(EC.visibility_of_element_located((By.ID, "password"))).send_keys("SuperSecretPassword!")
 
-        username_input = driver.find_element(By.ID, "user-name")
-        username_input.send_keys("standard_user")
+    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
 
-        password_input = driver.find_element(By.ID, "password")
-        password_input.send_keys("secret_sauce")
+    wait.until(EC.url_contains("/secure"))
 
-        login_button = driver.find_element(By.ID, "login-button")
-        login_button.click()
-
-        WebDriverWait(driver, 10) .until(
-            EC.url_contains("inventory")
-        )
-        assert "inventory" in driver.current_url
-
-    except Exception:
-        save_screenshot(driver, "test_valid_login_redirects_to_inventory")
-        raise
-
-    finally:
-        driver.quit()
+    assert "/secure" in driver.current_url
