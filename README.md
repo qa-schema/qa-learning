@@ -1,3 +1,5 @@
+[![tests](https://github.com/qa-schema/qa-learning/actions/workflows/tests.yml/badge.svg)](https://github.com/qa-schema/qa-learning/actions/workflows/tests.yml)
+
 # QA Learning Repository
 
 This repository documents my journey to become a QA Engineer.
