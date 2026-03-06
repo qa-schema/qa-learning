@@ -2,16 +2,22 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 
 def test_invalid_username():
-    driver = webdriver.Chrome()
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(options=options)
 
     try:
         driver.get("https://the-internet.herokuapp.com/login")
 
         username = WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.ID, "username"))
+            EC.visibility_of_element_located((By.ID, "username"))
         )
         password = driver.find_element(By.ID, "password")
         login_button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
@@ -21,7 +27,7 @@ def test_invalid_username():
         login_button.click()
 
         error_message = WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.ID, "flash"))
+            EC.visibility_of_element_located((By.ID, "flash"))
         )
 
         assert "Your username is invalid!" in error_message.text
