@@ -2,7 +2,6 @@ import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
 
 
 @pytest.fixture
@@ -16,9 +15,10 @@ def driver():
         options.add_argument("--disable-gpu")
         options.add_argument("--window-size=1920,1080")
 
-    service = Service() 
 
-    driver = webdriver.Chrome(service=service, options=options)
+    options.binary_location = "/usr/bin/google-chrome"
+
+    driver = webdriver.Chrome(options=options)
 
     yield driver
 
