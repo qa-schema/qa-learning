@@ -16,7 +16,7 @@ def driver():
         options.add_argument("--disable-gpu")
         options.add_argument("--window-size=1920,1080")
 
-    service = Service()  # 👈 ВАЖНО
+    service = Service() 
 
     driver = webdriver.Chrome(service=service, options=options)
 
