@@ -6,7 +6,14 @@ import time
 
 
 def test_invalid_login_shows_error_and_screenshot():
-    driver = webdriver.Chrome()
+    from selenium.webdriver.chrome.options import Options
+
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+
+driver = webdriver.Chrome(options=options)
     driver.get("https://example.com/login")  # TODO: echte Seite einsetzen
 
     try:
