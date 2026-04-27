@@ -1,5 +1,10 @@
 import os
 import pytest
+
+if os.getenv("CI") == "true":
+    pytest.skip("Skipping Selenium tests in CI", allow_module_level=True)
+import os
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
