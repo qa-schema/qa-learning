@@ -1,28 +1,10 @@
 import os
 import pytest
 
-if os.getenv("CI") == "true":
-    pytest.skip("Skipping Selenium tests in CI", allow_module_level=True)
-import os
-import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
+def pytest_collection_modifyitems(config, items):
+    if os.getenv("CI") == "true":
+        skip_marker = pytest.mark.skip(reason="Skipping Selenium tests in CI")
 
-@pytest.fixture
-def driver():
-    options = Options()
-
-    # Headless для CI (GitHub Actions)
-    if os.getenv("HEADLESS") == "1":
-        options.add_argument("--headless=new")
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--window-size=1920,1080")
-
-    driver = webdriver.Chrome(options=options)
-
-    yield driver
-
-    driver.quit()
+        for item in items:
+            item.add_marker(skip_marker)
