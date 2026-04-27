@@ -2,30 +2,19 @@ name: tests
 
 on: [push, pull_request]
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  HEADLESS: "1"
-
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    env:
+      CI: "true"
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
-      - name: Install Chrome
-        uses: browser-actions/setup-chrome@v1
-
-      - name: Install ChromeDriver
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-chromedriver
 
       - name: Install dependencies
         run: |
