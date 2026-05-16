@@ -24,4 +24,4 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest -m "not ui" -Q
+          pytest -q
